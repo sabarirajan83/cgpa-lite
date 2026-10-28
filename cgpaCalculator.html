@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anna University GPA & CGPA Calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .sub {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 7px 18px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: #fff;
+            color: #555;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .tab.active {
+            background: #eee;
+            border-color: #999;
+            color: #111;
+            font-weight: 500;
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .info-box {
+            background: #e8f0fe;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #1a56db;
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .sem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .sem-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .sem-gpa-live {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .row-header {
+            display: grid;
+            grid-template-columns: 1fr 100px 140px 34px;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .row-header span {
+            font-size: 11px;
+            color: #888;
+            padding: 0 4px;
+        }
+
+        .course-row {
+            display: grid;
+            grid-template-columns: 1fr 100px 140px 34px;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .course-row input,
+        .course-row select {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            color: #1a1a1a;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .course-row input:focus,
+        .course-row select:focus {
+            border-color: #888;
+        }
+
+        .del-btn {
+            width: 34px;
+            height: 34px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #aaa;
+            transition: all .15s;
+        }
+
+        .del-btn:hover {
+            background: #fde8e8;
+            color: #e02424;
+        }
+
+        .add-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border: 1px dashed #bbb;
+            border-radius: 8px;
+            background: none;
+            color: #777;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: all .15s;
+        }
+
+        .add-btn:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .add-sem-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border: 1px dashed #bbb;
+            border-radius: 8px;
+            background: none;
+            color: #777;
+            font-size: 13px;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            transition: all .15s;
+        }
+
+        .add-sem-btn:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .calc-btn {
+            padding: 10px 26px;
+            border: 1px solid #999;
+            border-radius: 8px;
+            background: #fff;
+            color: #111;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 1.25rem;
+            transition: all .15s;
+        }
+
+        .calc-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 1.25rem;
+        }
+
+        .metric-card {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .metric-sub {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .badge-distinction {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-first {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-second {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .err {
+            font-size: 12px;
+            color: #e02424;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e5e5e5;
+            margin: 1.25rem 0;
+        }
+
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .ref-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .ref-grade {
+            font-size: 22px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .ref-desc {
+            font-size: 11px;
+            color: #888;
+            margin: 2px 0 6px;
+        }
+
+        .ref-pts {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .ref-pts-label {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .abs-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            text-align: center;
+        }
+
+        .abs-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 8px 4px;
+            background: #fff;
+        }
+
+        .abs-grade {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .abs-range {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .pass-info {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.9;
+        }
+
+        @media (max-width: 540px) {
+
+            .course-row,
+            .row-header {
+                grid-template-columns: 1fr 80px 110px 34px;
+            }
+
+            .abs-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Anna University GPA &amp; CGPA Calculator</h1>
+        <p class="sub">Regulations 2023 — Choice Based Credit System (University Departments)</p>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('gpa', this)">Semester GPA</button>
+            <button class="tab" onclick="switchTab('cgpa', this)">CGPA (multi-semester)</button>
+            <button class="tab" onclick="switchTab('ref', this)">Grade reference</button>
+        </div>
+
+        <!-- GPA PANEL -->
+        <div class="panel active" id="tab-gpa">
+            <div class="info-box">
+                <strong>GPA = Σ(Credits × Grade Points) ÷ Σ(Credits)</strong> &nbsp;|&nbsp;
+                U and SA grades are excluded from calculation &nbsp;|&nbsp;
+                Percentage = CGPA × 10
+            </div>
+            <div class="card">
+                <div class="row-header">
+                    <span>Course name (optional)</span>
+                    <span>Credits</span>
+                    <span>Grade</span>
+                    <span></span>
+                </div>
+                <div id="gpa-courses"></div>
+                <button class="add-btn" onclick="addCourse('gpa', 'gpa-courses')">
+                    <i class="ti ti-plus"></i> Add course
+                </button>
+            </div>
+            <button class="calc-btn" onclick="calcGPA()">
+                <i class="ti ti-calculator"></i> Calculate GPA
+            </button>
+            <p class="err" id="gpa-err">Please add at least one course with a passing grade (O / A+ / A / B+ / B / C)
+                and valid credits.</p>
+            <div class="result-grid" id="gpa-result" style="display:none"></div>
+        </div>
+
+        <!-- CGPA PANEL -->
+        <div class="panel" id="tab-cgpa">
+            <div class="info-box">
+                CGPA is computed across all semesters. Add each semester and its courses below.
+                U and SA grades are automatically excluded. Live GPA updates as you fill in grades.
+            </div>
+            <div id="cgpa-semesters"></div>
+            <button class="add-sem-btn" onclick="addSemester()">
+                <i class="ti ti-plus"></i> Add semester
+            </button>
+            <button class="calc-btn" onclick="calcCGPA()">
+                <i class="ti ti-calculator"></i> Calculate CGPA
+            </button>
+            <p class="err" id="cgpa-err">Please add at least one course with a passing grade and valid credits.</p>
+            <div class="result-grid" id="cgpa-result" style="display:none"></div>
+        </div>
+
+        <!-- REFERENCE PANEL -->
+        <div class="panel" id="tab-ref">
+            <p class="section-label">Letter grades and grade points (Table 12 — Regulation 2023)</p>
+            <div class="ref-grid">
+                <div class="ref-card">
+                    <div class="ref-grade">O</div>
+                    <div class="ref-desc">Outstanding</div>
+                    <div class="ref-pts">10</div>
+                    <div class="ref-pts-label">grade points</div>
+                </div>
+                <div class="ref-card">
+                    <div class="ref-grade">A+</div>
+                    <div class="ref-desc">Excellent</div>
+                    <div class="ref-pts">9</div>
+                    <div class="ref-pts-label">grade points</div>
+                </div>
+                <div class="ref-card">
+                    <div class="ref-grade">A</div>
+                    <div class="ref-desc">Very Good</div>
+                    <div class="ref-pts">8</div>
+                    <div class="ref-pts-label">grade points</div>
+                </div>
+                <div class="ref-card">
+                    <div class="ref-grade">B+</div>
+                    <div class="ref-desc">Good</div>
+                    <div class="ref-pts">7</div>
+                    <div class="ref-pts-label">grade points</div>
+                </div>
+                <div class="ref-card">
+                    <div class="ref-grade">B</div>
+                    <div class="ref-desc">Average</div>
+                    <div class="ref-pts">6</div>
+                    <div class="ref-pts-label">grade points</div>
+                </div>
+                <div class="ref-card">
+                    <div class="ref-grade">C</div>
+                    <div class="ref-desc">Satisfactory</div>
+                    <div class="ref-pts">5</div>
+                    <div class="ref-pts-label">grade points</div>
+                </div>
+                <div class="ref-card">
+                    <div class="ref-grade">U</div>
+                    <div class="ref-desc">Re-appearance</div>
+                    <div class="ref-pts">0</div>
+                    <div class="ref-pts-label">excluded</div>
+                </div>
+                <div class="ref-card">
+                    <div class="ref-grade">SA</div>
+                    <div class="ref-desc">Shortage of Attendance</div>
+                    <div class="ref-pts">0</div>
+                    <div class="ref-pts-label">excluded</div>
+                </div>
+                <div class="ref-card">
+                    <div class="ref-grade">WD</div>
+                    <div class="ref-desc">Withdrawal</div>
+                    <div class="ref-pts">0</div>
+                    <div class="ref-pts-label">excluded</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <p class="section-label">Absolute grading — labs, project work &amp; internship (Table 13)</p>
+            <div class="abs-grid">
+                <div class="abs-card">
+                    <div class="abs-grade">O</div>
+                    <div class="abs-range">91–100</div>
+                </div>
+                <div class="abs-card">
+                    <div class="abs-grade">A+</div>
+                    <div class="abs-range">81–90</div>
+                </div>
+                <div class="abs-card">
+                    <div class="abs-grade">A</div>
+                    <div class="abs-range">71–80</div>
+                </div>
+                <div class="abs-card">
+                    <div class="abs-grade">B+</div>
+                    <div class="abs-range">61–70</div>
+                </div>
+                <div class="abs-card">
+                    <div class="abs-grade">B</div>
+                    <div class="abs-range">56–60</div>
+                </div>
+                <div class="abs-card">
+                    <div class="abs-grade">C</div>
+                    <div class="abs-range">50–55</div>
+                </div>
+                <div class="abs-card">
+                    <div class="abs-grade">U</div>
+                    <div class="abs-range">&lt; 50</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <p class="section-label">Degree classification (Clause 14.2)</p>
+            <div class="pass-info">
+                🏅 <strong>First Class with Distinction</strong> — CGPA ≥ 8.50, all courses in first attempt, no
+                prevention from ESE<br>
+                🎓 <strong>First Class</strong> — CGPA ≥ 6.50<br>
+                📄 <strong>Second Class</strong> — qualified for degree but not in First or Distinction<br>
+            </div>
+
+            <div class="divider"></div>
+            <p class="section-label">Passing requirements (Clause 11.1)</p>
+            <div class="pass-info">
+                • Minimum <strong>50%</strong> total marks (Continuous Assessment + End Semester Examination)<br>
+                • Minimum <strong>45%</strong> in End Semester Exam individually (theory &amp; lab)<br>
+                • EEC courses (except project work): minimum <strong>50%</strong> via continuous assessment only<br>
+                • Percentage of marks = <strong>CGPA × 10</strong>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GRADES = { O: 10, 'A+': 9, A: 8, 'B+': 7, B: 6, C: 5, U: 0, SA: 0, WD: 0 };
+        const PASSING = ['O', 'A+', 'A', 'B+', 'B', 'C'];
+        let uid = 0, semCount = 0;
+
+        function gradeSelect() {
+            return '<select onchange="updateLive()">' +
+                Object.keys(GRADES).map(g => `<option value="${g}">${g} — ${GRADES[g]} pts</option>`).join('') +
+                '</select>';
+        }
+
+        function addCourse(prefix, containerId) {
+            const id = ++uid;
+            const row = document.createElement('div');
+            row.className = 'course-row';
+            row.id = `row-${id}`;
+            row.innerHTML = `
+      <input type="text" placeholder="Course name (optional)">
+      <input type="number" placeholder="Credits" min="0.5" step="0.5" value="3" onchange="updateLive()">
+      ${gradeSelect()}
+      <button class="del-btn" onclick="delRow('row-${id}')" title="Remove"><i class="ti ti-x"></i></button>`;
+            document.getElementById(containerId).appendChild(row);
+        }
+
+        function delRow(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+            updateLive();
+        }
+
+        function getCourses(containerId) {
+            const cont = document.getElementById(containerId);
+            if (!cont) return [];
+            return Array.from(cont.querySelectorAll('.course-row')).map(row => {
+                const inputs = row.querySelectorAll('input');
+                const sel = row.querySelector('select');
+                return { credits: parseFloat(inputs[1].value) || 0, grade: sel.value };
+            });
+        }
+
+        function computeGPA(courses) {
+            let sumCP = 0, sumC = 0;
+            courses.forEach(({ credits, grade }) => {
+                if (PASSING.includes(grade) && credits > 0) {
+                    sumCP += credits * GRADES[grade];
+                    sumC += credits;
+                }
+            });
+            return sumC > 0 ? { gpa: sumCP / sumC, totalCredits: sumC } : { gpa: null, totalCredits: 0 };
+        }
+
+        function classifyGPA(g) {
+            if (g === null) return ['—', ''];
+            if (g >= 8.5) return ['First Class with Distinction', 'badge-distinction'];
+            if (g >= 6.5) return ['First Class', 'badge-first'];
+            return ['Second Class', 'badge-second'];
+        }
+
+        function renderResult(containerId, gpa, totalCredits, label) {
+            const cont = document.getElementById(containerId);
+            const [cls, badgeCls] = classifyGPA(gpa);
+            const pct = gpa !== null ? (gpa * 10).toFixed(2) : '—';
+            cont.style.display = 'grid';
+            cont.innerHTML = `
+      <div class="metric-card">
+        <div class="metric-label">${label}</div>
+        <div class="metric-value">${gpa !== null ? gpa.toFixed(2) : '—'}</div>
+        <div class="metric-sub">out of 10.00</div>
+        ${gpa !== null ? `<span class="badge ${badgeCls}">${cls}</span>` : ''}
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Percentage of marks</div>
+        <div class="metric-value">${pct}${gpa !== null ? '%' : ''}</div>
+        <div class="metric-sub">${totalCredits} credit(s) counted</div>
+      </div>`;
+        }
+
+        function calcGPA() {
+            const courses = getCourses('gpa-courses');
+            const { gpa, totalCredits } = computeGPA(courses);
+            const err = document.getElementById('gpa-err');
+            if (gpa === null) { err.style.display = 'block'; document.getElementById('gpa-result').style.display = 'none'; return; }
+            err.style.display = 'none';
+            renderResult('gpa-result', gpa, totalCredits, 'Semester GPA');
+        }
+
+        function addSemester() {
+            const id = ++semCount;
+            const cont = document.getElementById('cgpa-semesters');
+            const sem = document.createElement('div');
+            sem.className = 'card';
+            sem.id = `semester-${id}`;
+            sem.innerHTML = `
+      <div class="sem-header">
+        <span class="sem-title">Semester ${id}</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="sem-gpa-live" id="live-gpa-${id}">GPA: —</span>
+          <button class="del-btn" onclick="document.getElementById('semester-${id}').remove();updateLive();" title="Remove semester"><i class="ti ti-x"></i></button>
+        </div>
+      </div>
+      <div class="row-header">
+        <span>Course name</span><span>Credits</span><span>Grade</span><span></span>
+      </div>
+      <div id="sem-courses-${id}"></div>
+      <button class="add-btn" onclick="addCourse('s${id}','sem-courses-${id}')">
+        <i class="ti ti-plus"></i> Add course
+      </button>`;
+            cont.appendChild(sem);
+            addCourse(`s${id}`, `sem-courses-${id}`);
+            addCourse(`s${id}`, `sem-courses-${id}`);
+            addCourse(`s${id}`, `sem-courses-${id}`);
+        }
+
+        function calcCGPA() {
+            const sems = document.querySelectorAll('[id^="semester-"]');
+            let totalCP = 0, totalC = 0;
+            sems.forEach(sem => {
+                const id = sem.id.replace('semester-', '');
+                getCourses(`sem-courses-${id}`).forEach(({ credits, grade }) => {
+                    if (PASSING.includes(grade) && credits > 0) {
+                        totalCP += credits * GRADES[grade];
+                        totalC += credits;
+                    }
+                });
+            });
+            const err = document.getElementById('cgpa-err');
+            if (totalC === 0) { err.style.display = 'block'; document.getElementById('cgpa-result').style.display = 'none'; return; }
+            err.style.display = 'none';
+            renderResult('cgpa-result', totalCP / totalC, totalC, 'CGPA');
+        }
+
+        function updateLive() {
+            document.querySelectorAll('[id^="semester-"]').forEach(sem => {
+                const id = sem.id.replace('semester-', '');
+                const { gpa } = computeGPA(getCourses(`sem-courses-${id}`));
+                const el = document.getElementById(`live-gpa-${id}`);
+                if (el) el.textContent = `GPA: ${gpa !== null ? gpa.toFixed(2) : '—'}`;
+            });
+        }
+
+        function switchTab(name, btn) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+            document.getElementById(`tab-${name}`).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Init
+        addCourse('gpa', 'gpa-courses');
+        addCourse('gpa', 'gpa-courses');
+        addCourse('gpa', 'gpa-courses');
+        addSemester();
+        addSemester();
+    </script>
+</body>
+
+</html>
