@@ -1,0 +1,378 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+.container {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.sub {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: 7px 18px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .15s;
+}
+
+.tab.active {
+    background: #eee;
+    border-color: #999;
+    color: #111;
+    font-weight: 500;
+}
+
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: block;
+}
+
+.info-box {
+    background: #e8f0fe;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #1a56db;
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.sem-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.sem-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.sem-gpa-live {
+    font-size: 13px;
+    color: #666;
+}
+
+.row-header {
+    display: grid;
+    grid-template-columns: 1fr 100px 140px 34px;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.row-header span {
+    font-size: 11px;
+    color: #888;
+    padding: 0 4px;
+}
+
+.course-row {
+    display: grid;
+    grid-template-columns: 1fr 100px 140px 34px;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.course-row input,
+.course-row select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    color: #1a1a1a;
+    font-size: 14px;
+    outline: none;
+}
+
+.course-row input:focus,
+.course-row select:focus {
+    border-color: #888;
+}
+
+.del-btn {
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #aaa;
+    transition: all .15s;
+}
+
+.del-btn:hover {
+    background: #fde8e8;
+    color: #e02424;
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+    background: none;
+    color: #777;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: all .15s;
+}
+
+.add-btn:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.add-sem-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+    background: none;
+    color: #777;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    transition: all .15s;
+}
+
+.add-sem-btn:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.calc-btn {
+    padding: 10px 26px;
+    border: 1px solid #999;
+    border-radius: 8px;
+    background: #fff;
+    color: #111;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 1.25rem;
+    transition: all .15s;
+}
+
+.calc-btn:hover {
+    background: #f0f0f0;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 1.25rem;
+}
+
+.metric-card {
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.metric-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: #111;
+}
+
+.metric-sub {
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.badge-distinction {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-first {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-second {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.err {
+    font-size: 12px;
+    color: #e02424;
+    margin-top: 8px;
+    display: none;
+}
+
+.divider {
+    height: 1px;
+    background: #e5e5e5;
+    margin: 1.25rem 0;
+}
+
+.ref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.ref-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    background: #fff;
+}
+
+.ref-grade {
+    font-size: 22px;
+    font-weight: 600;
+    color: #111;
+}
+
+.ref-desc {
+    font-size: 11px;
+    color: #888;
+    margin: 2px 0 6px;
+}
+
+.ref-pts {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111;
+}
+
+.ref-pts-label {
+    font-size: 11px;
+    color: #aaa;
+}
+
+.abs-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    text-align: center;
+}
+
+.abs-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 8px 4px;
+    background: #fff;
+}
+
+.abs-grade {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+}
+
+.abs-range {
+    font-size: 11px;
+    color: #888;
+}
+
+.section-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+.pass-info {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.9;
+}
+
+@media (max-width: 540px) {
+
+    .course-row,
+    .row-header {
+        grid-template-columns: 1fr 80px 110px 34px;
+    }
+
+    .abs-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
